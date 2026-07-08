@@ -175,9 +175,15 @@
         <div class="logo">Sirius</div>
 
         <nav class="nav">
-            <a href="#">Home</a>
-            <a href="#features">Features</a>
-            <a href="#">Login</a>
+            <nav class="nav">
+                <a href="/">Home</a>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/mood">Mood</a>
+                <a href="/journal">Journal</a>
+                <a href="/goals">Goals</a>
+                <a href="/resources">Resources</a>
+                <a href="/support">Support</a>
+</nav>
         </nav>
     </header>
 
