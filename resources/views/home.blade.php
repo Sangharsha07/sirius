@@ -26,12 +26,37 @@
             font-size: 28px;
             font-weight: bold;
             color: #2563eb;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
         .nav a {
-            margin-left: 24px;
             text-decoration: none;
             color: #374151;
+            font-size: 16px;
+        }
+
+        .nav a:hover {
+            color: #2563eb;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #374151;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .logout-btn:hover {
+            color: #2563eb;
         }
 
         .hero {
@@ -66,6 +91,9 @@
 
         .buttons {
             margin-top: 28px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .btn-primary,
@@ -75,7 +103,8 @@
             border: none;
             font-size: 16px;
             cursor: pointer;
-            margin-right: 12px;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -83,10 +112,18 @@
             color: white;
         }
 
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
         .btn-secondary {
             background: white;
             color: #2563eb;
             border: 1px solid #2563eb;
+        }
+
+        .btn-secondary:hover {
+            background: #eff6ff;
         }
 
         .card {
@@ -150,6 +187,15 @@
         }
 
         @media (max-width: 900px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav {
+                justify-content: center;
+            }
+
             .hero {
                 flex-direction: column;
                 text-align: center;
@@ -165,109 +211,131 @@
 
             .card {
                 width: 100%;
+                max-width: 340px;
+            }
+
+            .buttons {
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">Sirius</div>
+<header class="navbar">
+    <a href="/" class="logo">Sirius</a>
 
-        <nav class="nav">
-            <nav class="nav">
-                <a href="/">Home</a>
-                <a href="/dashboard">Dashboard</a>
-                <a href="/mood">Mood</a>
-                <a href="/journal">Journal</a>
-                <a href="/goals">Goals</a>
-                <a href="/resources">Resources</a>
-                <a href="/support">Support</a>
-</nav>
-        </nav>
-    </header>
+    <nav class="nav">
+        <a href="/">Home</a>
 
-    <section class="hero">
-        <div class="hero-text">
-            <p class="tagline">Student Mental Wellness Platform</p>
+        @auth
+            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="/mood">Mood</a>
+            <a href="/journal">Journal</a>
+            <a href="/goals">Goals</a>
+            <a href="/resources">Resources</a>
+            <a href="/support">Support</a>
 
-            <h1>Track your mood, reflect daily, and build healthier habits.</h1>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        @else
+            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('register') }}">Register</a>
+        @endauth
+    </nav>
+</header>
 
-            <p class="desc">
-                Sirius helps university students manage stress, write private journals,
-                set wellness goals, and understand emotional patterns through simple dashboards.
-            </p>
+<section class="hero">
+    <div class="hero-text">
+        <p class="tagline">Student Mental Wellness Platform</p>
 
-            <div class="buttons">
-                <button class="btn-primary" onclick="alert('Registration page will be added later')">
+        <h1>Track your mood, reflect daily, and build healthier habits.</h1>
+
+        <p class="desc">
+            Sirius helps university students manage stress, write private journals,
+            set wellness goals, and understand emotional patterns through simple dashboards.
+        </p>
+
+        <div class="buttons">
+            @auth
+                <a href="{{ route('dashboard') }}" class="btn-primary">
+                    Go to Dashboard
+                </a>
+            @else
+                <a href="{{ route('register') }}" class="btn-primary">
                     Get Started
-                </button>
+                </a>
+            @endauth
 
-                <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
-                    Learn More
-                </button>
-            </div>
+            <a href="#features" class="btn-secondary">
+                Learn More
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Today's Check-in</h2>
+
+        <div class="mood">
+            😊 Feeling: Calm
         </div>
 
-        <div class="card">
-            <h2>Today's Check-in</h2>
+        <p><strong>Stress Level</strong></p>
 
-            <div class="mood">
-                😊 Feeling: Calm
-            </div>
-
-            <p><strong>Stress Level</strong></p>
-
-            <div class="bar">
-                <div class="fill"></div>
-            </div>
-
-            <p style="margin-top: 20px;">
-                Journal Reminder: Write one thing that went well today.
-            </p>
+        <div class="bar">
+            <div class="fill"></div>
         </div>
-    </section>
 
-    <section class="features" id="features">
-        <h2>Core Features</h2>
-        <p>Sirius combines simple tools for daily student wellness.</p>
+        <p style="margin-top: 20px;">
+            Journal Reminder: Write one thing that went well today.
+        </p>
+    </div>
+</section>
 
-        <div class="feature-grid">
-            <div class="feature">
-                <h3>Mood Tracker</h3>
-                <p>Record daily mood and stress level.</p>
-            </div>
+<section class="features" id="features">
+    <h2>Core Features</h2>
+    <p>Sirius combines simple tools for daily student wellness.</p>
 
-            <div class="feature">
-                <h3>Private Journal</h3>
-                <p>Write and manage private journal entries.</p>
-            </div>
-
-            <div class="feature">
-                <h3>AI Comment Filtering</h3>
-                <p>Filter harmful or wrong advice on the support board.</p>
-            </div>
-
-            <div class="feature">
-                <h3>Dashboard</h3>
-                <p>View mood and stress trends using charts.</p>
-            </div>
-
-            <div class="feature">
-                <h3>Wellness Goals</h3>
-                <p>Set and track personal wellness goals.</p>
-            </div>
-
-            <div class="feature">
-                <h3>Resources</h3>
-                <p>Find student wellness and support resources.</p>
-            </div>
+    <div class="feature-grid">
+        <div class="feature">
+            <h3>Mood Tracker</h3>
+            <p>Record daily mood and stress level.</p>
         </div>
-    </section>
 
-    <footer>
-        <p>© 2026 Sirius. Student Mental Wellness Platform.</p>
-    </footer>
+        <div class="feature">
+            <h3>Private Journal</h3>
+            <p>Write and manage private journal entries.</p>
+        </div>
+
+        <div class="feature">
+            <h3>AI Comment Filtering</h3>
+            <p>Filter harmful or wrong advice on the support board.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Dashboard</h3>
+            <p>View mood and stress trends using charts.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Wellness Goals</h3>
+            <p>Set and track personal wellness goals.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Resources</h3>
+            <p>Find student wellness and support resources.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Sirius. Student Mental Wellness Platform.</p>
+</footer>
 
 </body>
 </html>

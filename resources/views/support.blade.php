@@ -34,8 +34,14 @@
             text-decoration: none;
         }
 
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         .nav a {
-            margin-left: 20px;
             text-decoration: none;
             color: #374151;
         }
@@ -43,6 +49,21 @@
         .nav a:hover,
         .nav a.active {
             color: #2563eb;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
         }
 
         .page {
@@ -70,7 +91,8 @@
             align-items: start;
         }
 
-        .card {
+        .card,
+        .post-card {
             background: white;
             padding: 28px;
             border-radius: 20px;
@@ -159,14 +181,6 @@
             margin-bottom: 20px;
         }
 
-        .post-card {
-            background: white;
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
-            margin-bottom: 25px;
-        }
-
         .post-top {
             display: flex;
             justify-content: space-between;
@@ -195,6 +209,76 @@
             border-radius: 999px;
             font-weight: bold;
             font-size: 13px;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+
+        .flag-pill {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 999px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .flag-general {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .flag-serious {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .flag-urgent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .flag-advice_needed {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .flag-academic {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .vote-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .vote-btn {
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 0;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .vote-btn:hover {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .score {
+            color: #111827;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
         }
 
         .reply-box {
@@ -246,14 +330,11 @@
             }
 
             .nav {
-                display: flex;
-                flex-wrap: wrap;
                 justify-content: center;
-                gap: 12px;
             }
 
-            .nav a {
-                margin-left: 0;
+            .post-top {
+                flex-direction: column;
             }
         }
     </style>
@@ -265,12 +346,19 @@
 
     <nav class="nav">
         <a href="/">Home</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/mood">Mood</a>
+        <a href="{{ route('dashboard') }}">Dashboard</a>
+        <a href="{{ route('mood.index') }}">Mood</a>
         <a href="/journal">Journal</a>
         <a href="/goals">Goals</a>
         <a href="/resources">Resources</a>
-        <a href="/support" class="active">Support</a>
+        <a href="{{ route('support.index') }}" class="active">Support</a>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
     </nav>
 </header>
 
@@ -279,7 +367,7 @@
 
     <p class="page-desc">
         Students can post questions or struggles anonymously, and other students can reply with supportive advice.
-        Replies are filtered before they appear, so harmful, bullying, spam, or unsafe advice can be blocked.
+        Posts and replies can be upvoted or downvoted so helpful advice becomes easier to find.
     </p>
 
     @if(session('success'))
@@ -327,6 +415,15 @@
                         <option>General Support</option>
                     </select>
 
+                    <label>Post Flag</label>
+                    <select name="flag">
+                        <option value="general">General</option>
+                        <option value="serious">Serious</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="advice_needed">Advice Needed</option>
+                        <option value="academic">Academic</option>
+                    </select>
+
                     <label>Title</label>
                     <input type="text" name="title" placeholder="Example: Feeling stressed before exams" required>
 
@@ -358,11 +455,31 @@
 
         <main>
             @forelse($posts as $post)
+                @php
+                    $postFlag = $post->flag ?? 'general';
+                @endphp
+
                 <div class="post-card">
                     <div class="post-top">
                         <div>
-                            <div class="category-pill">
-                                {{ $post->category ?? 'General' }}
+                            <div>
+                                <span class="category-pill">
+                                    {{ $post->category ?? 'General' }}
+                                </span>
+
+                                <span class="flag-pill flag-{{ $postFlag }}">
+                                    @if($postFlag === 'urgent')
+                                        Urgent
+                                    @elseif($postFlag === 'serious')
+                                        Serious
+                                    @elseif($postFlag === 'advice_needed')
+                                        Advice Needed
+                                    @elseif($postFlag === 'academic')
+                                        Academic
+                                    @else
+                                        General
+                                    @endif
+                                </span>
                             </div>
 
                             <h2 class="post-title">
@@ -373,16 +490,36 @@
                                 Posted by {{ $post->anonymous_name }} |
                                 {{ $post->created_at->diffForHumans() }}
                             </div>
+
+                            <div class="vote-box">
+                                <a href="{{ route('support.posts.upvote', $post) }}"
+                                   class="vote-btn ajax-vote"
+                                   data-score-id="post-score-{{ $post->id }}">
+                                    ⬆
+                                </a>
+
+                                <span class="score" id="post-score-{{ $post->id }}">
+                                    {{ $post->vote_score ?? 0 }}
+                                </span>
+
+                                <a href="{{ route('support.posts.downvote', $post) }}"
+                                   class="vote-btn ajax-vote"
+                                   data-score-id="post-score-{{ $post->id }}">
+                                    ⬇
+                                </a>
+                            </div>
                         </div>
 
-                        <form method="POST" action="{{ route('support.posts.destroy', $post) }}">
-                            @csrf
-                            @method('DELETE')
+                        @if($post->user_id === auth()->id())
+                            <form method="POST" action="{{ route('support.posts.destroy', $post) }}">
+                                @csrf
+                                @method('DELETE')
 
-                            <button type="submit" class="delete-btn">
-                                Delete
-                            </button>
-                        </form>
+                                <button type="submit" class="delete-btn">
+                                    Delete
+                                </button>
+                            </form>
+                        @endif
                     </div>
 
                     <p>{{ $post->body }}</p>
@@ -410,10 +547,45 @@
 
                         @forelse($post->replies as $reply)
                             <div class="reply-box">
-                                <strong>{{ $reply->anonymous_name }}</strong>
-                                <p>{{ $reply->reply }}</p>
-                                <div class="meta">
-                                    {{ $reply->created_at->diffForHumans() }}
+                                <div style="display: flex; justify-content: space-between; gap: 15px; align-items: flex-start;">
+                                    <div>
+                                        <strong>{{ $reply->anonymous_name }}</strong>
+
+                                        <p>{{ $reply->reply }}</p>
+
+                                        <div class="meta">
+                                            {{ $reply->created_at->diffForHumans() }}
+                                        </div>
+
+                                        <div class="vote-box">
+                                            <a href="{{ route('support.replies.upvote', $reply) }}"
+                                               class="vote-btn ajax-vote"
+                                               data-score-id="reply-score-{{ $reply->id }}">
+                                                ⬆
+                                            </a>
+
+                                            <span class="score" id="reply-score-{{ $reply->id }}">
+                                                {{ $reply->vote_score ?? 0 }}
+                                            </span>
+
+                                            <a href="{{ route('support.replies.downvote', $reply) }}"
+                                               class="vote-btn ajax-vote"
+                                               data-score-id="reply-score-{{ $reply->id }}">
+                                                ⬇
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    @if($reply->user_id === auth()->id())
+                                        <form method="POST" action="{{ route('support.replies.destroy', $reply) }}">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="delete-btn">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         @empty
@@ -437,6 +609,43 @@
 <footer>
     <p>© 2026 Sirius. Student Mental Wellness Platform.</p>
 </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const voteButtons = document.querySelectorAll(".ajax-vote");
+
+        voteButtons.forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const url = button.getAttribute("href");
+                const scoreId = button.getAttribute("data-score-id");
+                const scoreElement = document.getElementById(scoreId);
+
+                fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data.success) {
+                        scoreElement.textContent = data.score;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(function () {
+                    alert("Vote failed. Please try again.");
+                });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

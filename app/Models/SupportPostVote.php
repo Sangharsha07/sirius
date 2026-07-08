@@ -4,25 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SupportReply extends Model
+class SupportPostVote extends Model
 {
     protected $fillable = [
         'support_post_id',
         'user_id',
-        'reply',
-        'anonymous_name',
-        'status',
-        'filter_reason',
+        'vote',
     ];
 
     public function post()
     {
         return $this->belongsTo(SupportPost::class, 'support_post_id');
-    }
-
-    public function votes()
-    {
-        return $this->hasMany(SupportReplyVote::class);
     }
 
     public function user()
