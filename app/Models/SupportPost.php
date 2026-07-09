@@ -13,6 +13,8 @@ class SupportPost extends Model
         'category',
         'flag',
         'anonymous_name',
+        'status',
+        'filter_reason',
     ];
 
     public function replies()

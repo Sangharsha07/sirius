@@ -6,13 +6,15 @@ use App\Models\SupportPost;
 use App\Models\SupportReply;
 use App\Models\SupportPostVote;
 use App\Models\SupportReplyVote;
+use App\Services\SiriusGeminiModerationService;
 use Illuminate\Http\Request;
 
 class SupportBoardController extends Controller
 {
     public function index()
     {
-        $posts = SupportPost::withSum('votes as vote_score', 'vote')
+        $posts = SupportPost::where('status', 'approved')
+            ->withSum('votes as vote_score', 'vote')
             ->with(['replies' => function ($query) {
                 $query->where('status', 'approved')
                     ->withSum('votes as vote_score', 'vote')
@@ -34,14 +36,36 @@ class SupportBoardController extends Controller
             'anonymous_name' => 'nullable|string|max:100',
         ]);
 
-        SupportPost::create([
+        $moderation = $this->moderateContent(
+            $validated['title'] . "\n\n" . $validated['body']
+        );
+
+        if ($moderation['status'] === 'blocked') {
+            return redirect('/support')->with(
+                'warning',
+                'Your post was blocked. Reason: ' . ($moderation['reason'] ?? 'Unsafe content detected.')
+            );
+        }
+
+        $post = SupportPost::create([
             'user_id' => auth()->id(),
             'title' => $validated['title'],
             'body' => $validated['body'],
             'category' => $validated['category'] ?? 'General Support',
             'flag' => $validated['flag'] ?? 'general',
             'anonymous_name' => $validated['anonymous_name'] ?? 'Anonymous Student',
+            'status' => $moderation['status'],
+            'filter_reason' => $moderation['reason'],
         ]);
+
+        if ($moderation['status'] === 'review') {
+            return redirect('/support')->with(
+                'warning',
+                'Your post was saved for review. It is hidden until the website admin approves it. Reason: ' . ($moderation['reason'] ?? 'Needs review.')
+            );
+        }
+
+        $this->createSiriusAutoReply($post);
 
         return redirect('/support')->with('success', 'Your support post was created.');
     }
@@ -53,7 +77,14 @@ class SupportBoardController extends Controller
             'anonymous_name' => 'nullable|string|max:100',
         ]);
 
-        $moderation = $this->moderateReply($validated['reply']);
+        $moderation = $this->moderateContent($validated['reply']);
+
+        if ($moderation['status'] === 'blocked') {
+            return redirect('/support')->with(
+                'warning',
+                'Your reply was blocked. Reason: ' . ($moderation['reason'] ?? 'Unsafe or inappropriate advice detected.')
+            );
+        }
 
         SupportReply::create([
             'support_post_id' => $supportPost->id,
@@ -64,20 +95,36 @@ class SupportBoardController extends Controller
             'filter_reason' => $moderation['reason'],
         ]);
 
-        if ($moderation['status'] === 'blocked') {
-            return redirect('/support')->with('warning', 'Your reply was blocked because it may contain unsafe or inappropriate advice.');
-        }
-
         if ($moderation['status'] === 'review') {
-            return redirect('/support')->with('warning', 'Your reply was saved for review because it may need moderation.');
+            return redirect('/support')->with(
+                'warning',
+                'Your reply was saved for review. It is hidden until the website admin approves it. Reason: ' . ($moderation['reason'] ?? 'Needs review.')
+            );
         }
 
         return redirect('/support')->with('success', 'Your advice was posted successfully.');
     }
 
-    private function moderateReply(string $reply): array
+    private function moderateContent(string $content): array
     {
-        $text = strtolower($reply);
+        $text = strtolower($content);
+        $text = preg_replace('/\s+/', ' ', $text);
+
+        $hardBlockedPatterns = [
+            '/\bkys\b/i',
+            '/\b' . 'k' . 'ill' . '\s+(yourself|urself|your self)\b/i',
+            '/\b(end|finish)\s+(your\s+life|ur\s+life)\b/i',
+            '/\bharm\s+(yourself|urself|your self)\b/i',
+        ];
+
+        foreach ($hardBlockedPatterns as $pattern) {
+            if (preg_match($pattern, $content)) {
+                return [
+                    'status' => 'blocked',
+                    'reason' => 'Self-harm encouragement or unsafe harmful language detected.',
+                ];
+            }
+        }
 
         $blockedWords = [
             'bully',
@@ -87,6 +134,7 @@ class SupportBoardController extends Controller
             'worthless',
             'loser',
             'hate you',
+            'kys',
         ];
 
         $wrongAdvicePatterns = [
@@ -100,6 +148,15 @@ class SupportBoardController extends Controller
             'quit everything',
             'doctor is useless',
             'counselor is useless',
+            'therapy is useless',
+            'medicine is useless',
+            'do not rest',
+            'just suffer',
+            'nobody cares',
+            'you are alone',
+            'give up',
+            'keep it secret',
+            'hide it from everyone',
         ];
 
         $needsReviewPatterns = [
@@ -118,7 +175,7 @@ class SupportBoardController extends Controller
             if (str_contains($text, $word)) {
                 return [
                     'status' => 'blocked',
-                    'reason' => 'Bullying or disrespectful language detected.',
+                    'reason' => 'Bullying, harassment, or harmful language detected.',
                 ];
             }
         }
@@ -136,9 +193,32 @@ class SupportBoardController extends Controller
             if (str_contains($text, $pattern)) {
                 return [
                     'status' => 'review',
-                    'reason' => 'Sensitive support topic may need review.',
+                    'reason' => 'Sensitive support topic may need admin review.',
                 ];
             }
+        }
+
+        $aiModeration = app(SiriusGeminiModerationService::class)->checkAdvice($content);
+
+        if (!$aiModeration['success']) {
+            return [
+                'status' => 'review',
+                'reason' => $aiModeration['reason'] ?? 'AI moderation failed, so this content needs review.',
+            ];
+        }
+
+        if ($aiModeration['status'] === 'blocked') {
+            return [
+                'status' => 'blocked',
+                'reason' => $aiModeration['reason'],
+            ];
+        }
+
+        if ($aiModeration['status'] === 'review') {
+            return [
+                'status' => 'review',
+                'reason' => $aiModeration['reason'],
+            ];
         }
 
         return [
@@ -147,10 +227,128 @@ class SupportBoardController extends Controller
         ];
     }
 
+    private function createSiriusAutoReply(SupportPost $post): void
+    {
+        $alreadyExists = SupportReply::where('support_post_id', $post->id)
+            ->where('anonymous_name', 'Sirius Support')
+            ->exists();
+
+        if ($alreadyExists) {
+            return;
+        }
+
+        SupportReply::create([
+            'support_post_id' => $post->id,
+            'user_id' => null,
+            'reply' => "Hi, I’m Sirius Support.\n\nYou are not alone.\n\nIf you need support, you can contact:\n\n• TUJ Counseling\n  tujcounseling@tuj.temple.edu\n\n• TUJ TELUS JA Students\n  0800-222-1148\n\n• TELL English Lifeline\n  0800-300-8355\n\n• Yorisoi Hotline Japan\n  0120-279-338\n\nEmergency in Japan:\n• Ambulance: 119\n• Police: 110",
+            'anonymous_name' => 'Sirius Support',
+            'status' => 'approved',
+            'filter_reason' => null,
+        ]);
+    }
+
+    private function ensureAdmin(): void
+    {
+        $adminEmails = collect(config('services.admin.emails', []))
+            ->map(fn ($email) => strtolower(trim($email)))
+            ->filter()
+            ->values()
+            ->toArray();
+
+        $userEmail = strtolower(trim(auth()->user()->email ?? ''));
+
+        if (!$userEmail || !in_array($userEmail, $adminEmails, true)) {
+            abort(403, 'Only website admins can access this page.');
+        }
+    }
+
+    public function reviewQueue()
+    {
+        $this->ensureAdmin();
+
+        $posts = SupportPost::where('status', 'review')
+            ->latest()
+            ->get();
+
+        $replies = SupportReply::where('status', 'review')
+            ->with('post')
+            ->latest()
+            ->get();
+
+        return view('support-review', compact('posts', 'replies'));
+    }
+
+    public function approvePost(SupportPost $supportPost)
+    {
+        $this->ensureAdmin();
+
+        $supportPost->update([
+            'status' => 'approved',
+            'filter_reason' => null,
+        ]);
+
+        $this->createSiriusAutoReply($supportPost);
+
+        return redirect()
+            ->route('support.review')
+            ->with('success', 'Post approved and is now visible.');
+    }
+
+    public function rejectPost(SupportPost $supportPost)
+    {
+        $this->ensureAdmin();
+
+        $supportPost->votes()->delete();
+
+        foreach ($supportPost->replies as $reply) {
+            $reply->votes()->delete();
+            $reply->delete();
+        }
+
+        $supportPost->delete();
+
+        return redirect()
+            ->route('support.review')
+            ->with('success', 'Post rejected and deleted.');
+    }
+
+    public function approveReply(SupportReply $supportReply)
+    {
+        $this->ensureAdmin();
+
+        $supportReply->update([
+            'status' => 'approved',
+            'filter_reason' => null,
+        ]);
+
+        return redirect()
+            ->route('support.review')
+            ->with('success', 'Reply approved and is now visible.');
+    }
+
+    public function rejectReply(SupportReply $supportReply)
+    {
+        $this->ensureAdmin();
+
+        $supportReply->votes()->delete();
+        $supportReply->delete();
+
+        return redirect()
+            ->route('support.review')
+            ->with('success', 'Reply rejected and deleted.');
+    }
+
     public function destroyPost(SupportPost $supportPost)
     {
         if ($supportPost->user_id != auth()->id()) {
             abort(403, 'You can only delete your own post.');
+        }
+
+        $supportPost->votes()->delete();
+
+        foreach ($supportPost->replies as $reply) {
+            $reply->votes()->delete();
+            $reply->delete();
         }
 
         $supportPost->delete();
@@ -164,6 +362,7 @@ class SupportBoardController extends Controller
             abort(403, 'You can only delete your own comment.');
         }
 
+        $supportReply->votes()->delete();
         $supportReply->delete();
 
         return redirect('/support')->with('success', 'Your comment was deleted.');

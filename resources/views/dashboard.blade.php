@@ -192,6 +192,8 @@
             }
         }
     </style>
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
 </head>
 <body>
 
@@ -305,6 +307,7 @@
 <footer>
     <p>© 2026 Sirius. Student Mental Wellness Platform.</p>
 </footer>
+@include('partials.helpline-widget')
 
 </body>
 </html>

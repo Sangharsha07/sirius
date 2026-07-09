@@ -14,7 +14,7 @@
         }
 
         body {
-            background: #f5f7fb;
+            background: #f4f7fb;
             color: #1f2937;
         }
 
@@ -24,7 +24,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .logo {
@@ -44,6 +47,7 @@
         .nav a {
             text-decoration: none;
             color: #374151;
+            font-weight: 600;
         }
 
         .nav a:hover,
@@ -52,85 +56,115 @@
         }
 
         .logout-btn {
-            background: #ef4444;
-            color: white;
+            background: transparent;
+            color: #374151;
             border: none;
-            padding: 9px 14px;
-            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 0;
+            font-weight: 600;
+            font-size: 16px;
         }
 
         .logout-btn:hover {
-            background: #dc2626;
+            color: #ef4444;
         }
 
         .page {
-            padding: 50px 8%;
+            padding: 45px 8%;
         }
 
-        .page h1 {
+        .page-header {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 34px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .page-header h1 {
             font-size: 42px;
-            margin-bottom: 10px;
             color: #111827;
+            margin-bottom: 12px;
         }
 
-        .page-desc {
+        .page-header p {
             color: #4b5563;
             font-size: 18px;
-            line-height: 1.6;
-            max-width: 850px;
-            margin-bottom: 30px;
+            line-height: 1.8;
+            max-width: 900px;
+        }
+
+        .safe-note {
+            margin-top: 18px;
+            background: #eef6ff;
+            border-left: 5px solid #2563eb;
+            padding: 16px 18px;
+            border-radius: 16px;
+            color: #374151;
+            font-size: 16px;
+            line-height: 1.7;
         }
 
         .layout {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 380px 1fr;
             gap: 28px;
             align-items: start;
         }
 
         .card,
         .post-card {
-            background: white;
+            background: #ffffff;
             padding: 28px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
-            margin-bottom: 25px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.055);
+            margin-bottom: 26px;
         }
 
         .card h2 {
-            margin-bottom: 15px;
+            font-size: 26px;
+            margin-bottom: 12px;
             color: #111827;
         }
 
         .card p {
             color: #4b5563;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
         }
 
         label {
             display: block;
             font-weight: bold;
-            margin-top: 16px;
+            margin-top: 18px;
             margin-bottom: 8px;
             color: #374151;
+            font-size: 16px;
         }
 
         input,
         select,
         textarea {
             width: 100%;
-            padding: 13px;
+            padding: 15px 16px;
             border: 1px solid #d1d5db;
-            border-radius: 12px;
+            border-radius: 15px;
             font-size: 16px;
+            background: #ffffff;
+            color: #111827;
         }
 
         textarea {
-            min-height: 130px;
+            min-height: 140px;
             resize: vertical;
+            line-height: 1.7;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
         }
 
         button {
@@ -138,9 +172,9 @@
             background: #2563eb;
             color: white;
             border: none;
-            padding: 13px 22px;
-            border-radius: 10px;
-            font-size: 15px;
+            padding: 14px 24px;
+            border-radius: 13px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -151,6 +185,7 @@
 
         .delete-btn {
             background: #ef4444;
+            margin-top: 0;
         }
 
         .delete-btn:hover {
@@ -160,25 +195,31 @@
         .success-box {
             background: #dcfce7;
             color: #166534;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 17px 20px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .warning-box {
             background: #fef3c7;
             color: #92400e;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 17px 20px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .error-box {
             background: #fee2e2;
             color: #991b1b;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            padding: 17px 20px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .post-top {
@@ -186,40 +227,28 @@
             justify-content: space-between;
             gap: 20px;
             align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
 
-        .post-title {
-            font-size: 24px;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .meta {
-            color: #6b7280;
-            font-size: 14px;
+        .badge-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-bottom: 14px;
         }
 
-        .category-pill {
-            display: inline-block;
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-weight: bold;
-            font-size: 13px;
-            margin-right: 8px;
-            margin-bottom: 10px;
-        }
-
+        .category-pill,
         .flag-pill {
             display: inline-block;
-            padding: 7px 13px;
+            padding: 8px 14px;
             border-radius: 999px;
             font-weight: bold;
-            font-size: 13px;
-            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .category-pill {
+            background: #eff6ff;
+            color: #2563eb;
         }
 
         .flag-general {
@@ -247,25 +276,49 @@
             color: #166534;
         }
 
+        .post-title {
+            font-size: 34px;
+            color: #111827;
+            margin-bottom: 10px;
+            line-height: 1.25;
+        }
+
+        .meta {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .post-body {
+            font-size: 18px;
+            color: #374151;
+            line-height: 1.85;
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
         .vote-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 11px;
             margin-top: 12px;
             margin-bottom: 12px;
         }
 
         .vote-btn {
-            background: #f3f4f6;
+            background: #eef2ff;
             color: #374151;
             border: none;
-            padding: 7px 10px;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             cursor: pointer;
             margin-top: 0;
-            font-size: 14px;
+            font-size: 18px;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
         }
 
@@ -277,53 +330,115 @@
         .score {
             color: #111827;
             font-weight: bold;
-            min-width: 20px;
+            min-width: 28px;
             text-align: center;
-        }
-
-        .reply-box {
-            background: #f9fafb;
-            padding: 18px;
-            border-radius: 15px;
-            margin-top: 15px;
-        }
-
-        .reply-box strong {
-            color: #2563eb;
-        }
-
-        .reply-box p {
-            margin-top: 7px;
-            color: #374151;
+            font-size: 18px;
         }
 
         .reply-form {
-            margin-top: 18px;
-            padding-top: 18px;
+            margin-top: 24px;
+            padding-top: 24px;
             border-top: 1px solid #e5e7eb;
         }
 
-        .moderation-info {
+        .reply-form h3 {
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .reply-section-title {
+            font-size: 26px;
+            margin-top: 28px;
+            margin-bottom: 16px;
+            color: #111827;
+        }
+
+        .reply-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 22px;
+            border-radius: 20px;
+            margin-top: 18px;
+        }
+
+        .reply-box.sirius-reply {
             background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .reply-author {
+            color: #2563eb;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .reply-text {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #374151;
+            margin-bottom: 14px;
+            max-width: 900px;
+        }
+
+        .sirius-label {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            font-size: 12px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .empty-text {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-top: 12px;
+        }
+
+        .moderation-info {
+            background: #eef6ff;
             border-left: 5px solid #2563eb;
-            padding: 16px;
-            border-radius: 12px;
-            line-height: 1.6;
+            padding: 18px;
+            border-radius: 16px;
+            line-height: 1.75;
+            font-size: 16px;
+        }
+
+        .moderation-info strong {
+            color: #111827;
         }
 
         footer {
             background: #111827;
             color: white;
             text-align: center;
-            padding: 22px;
-            margin-top: 40px;
+            padding: 24px;
+            margin-top: 42px;
         }
 
-        @media (max-width: 950px) {
+        @media (max-width: 1050px) {
             .layout {
                 grid-template-columns: 1fr;
             }
 
+            .post-title {
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 700px) {
             .navbar {
                 flex-direction: column;
                 gap: 14px;
@@ -331,14 +446,40 @@
 
             .nav {
                 justify-content: center;
+                gap: 14px;
             }
 
-            .post-top {
+            .page {
+                padding: 28px 5%;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .page-header p {
+                font-size: 16px;
+            }
+
+            .post-top,
+            .reply-header {
                 flex-direction: column;
+            }
+
+            .post-title {
+                font-size: 27px;
+            }
+
+            .post-body,
+            .reply-text {
+                font-size: 16px;
             }
         }
     </style>
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
 </head>
+
 <body>
 
 <header class="navbar">
@@ -363,12 +504,20 @@
 </header>
 
 <section class="page">
-    <h1>Anonymous Support Board</h1>
 
-    <p class="page-desc">
-        Students can post questions or struggles anonymously, and other students can reply with supportive advice.
-        Posts and replies can be upvoted or downvoted so helpful advice becomes easier to find.
-    </p>
+    <div class="page-header">
+        <h1>Anonymous Support Board</h1>
+
+        <p>
+            Share what you are going through anonymously and receive supportive advice from other students.
+            Sirius keeps the page simple, calm, and easy to read so students can use it even when stressed.
+        </p>
+
+        <div class="safe-note">
+            Sirius is not a medical or counseling service. It helps students notice when they may need support
+            and shows trusted contact options.
+        </div>
+    </div>
 
     @if(session('success'))
         <div class="success-box">
@@ -385,7 +534,7 @@
     @if($errors->any())
         <div class="error-box">
             <strong>Please fix these errors:</strong>
-            <ul>
+            <ul style="margin-left: 22px; margin-top: 8px;">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -398,7 +547,9 @@
         <aside>
             <div class="card">
                 <h2>Create Support Post</h2>
-                <p>Post anonymously and ask for general support or advice.</p>
+                <p>
+                    Write a short post and choose a flag. You can stay anonymous.
+                </p>
 
                 <form method="POST" action="{{ route('support.posts.store') }}">
                     @csrf
@@ -442,12 +593,14 @@
                 <div class="moderation-info">
                     <strong>Current prototype:</strong>
                     <p>
-                        Uses keyword-based filtering to block bullying, spam, unsafe advice, or wrong suggestions.
+                        Sirius uses keyword filtering to block disrespectful or unsafe advice.
                     </p>
+
                     <br>
+
                     <strong>Future upgrade:</strong>
                     <p>
-                        Replace this with AI API moderation to classify replies as approved, blocked, or review.
+                        AI moderation can help classify replies as approved, blocked, or needs review.
                     </p>
                 </div>
             </div>
@@ -462,9 +615,9 @@
                 <div class="post-card">
                     <div class="post-top">
                         <div>
-                            <div>
+                            <div class="badge-row">
                                 <span class="category-pill">
-                                    {{ $post->category ?? 'General' }}
+                                    {{ $post->category ?? 'General Support' }}
                                 </span>
 
                                 <span class="flag-pill flag-{{ $postFlag }}">
@@ -495,7 +648,7 @@
                                 <a href="{{ route('support.posts.upvote', $post) }}"
                                    class="vote-btn ajax-vote"
                                    data-score-id="post-score-{{ $post->id }}">
-                                    ⬆
+                                    ↑
                                 </a>
 
                                 <span class="score" id="post-score-{{ $post->id }}">
@@ -505,7 +658,7 @@
                                 <a href="{{ route('support.posts.downvote', $post) }}"
                                    class="vote-btn ajax-vote"
                                    data-score-id="post-score-{{ $post->id }}">
-                                    ⬇
+                                    ↓
                                 </a>
                             </div>
                         </div>
@@ -522,7 +675,9 @@
                         @endif
                     </div>
 
-                    <p>{{ $post->body }}</p>
+                    <div class="post-body">
+                        {!! nl2br(e($post->body)) !!}
+                    </div>
 
                     <div class="reply-form">
                         <h3>Give Supportive Advice</h3>
@@ -542,16 +697,24 @@
                         </form>
                     </div>
 
-                    <div style="margin-top: 25px;">
-                        <h3>Approved Advice</h3>
+                    <div>
+                        <h3 class="reply-section-title">Approved Advice</h3>
 
                         @forelse($post->replies as $reply)
-                            <div class="reply-box">
-                                <div style="display: flex; justify-content: space-between; gap: 15px; align-items: flex-start;">
+                            <div class="reply-box {{ $reply->anonymous_name === 'Sirius Support' ? 'sirius-reply' : '' }}">
+                                <div class="reply-header">
                                     <div>
-                                        <strong>{{ $reply->anonymous_name }}</strong>
+                                        <div class="reply-author">
+                                            {{ $reply->anonymous_name }}
 
-                                        <p>{{ $reply->reply }}</p>
+                                            @if($reply->anonymous_name === 'Sirius Support')
+                                                <span class="sirius-label">Auto Support</span>
+                                            @endif
+                                        </div>
+
+                                        <div class="reply-text">
+                                            {!! nl2br(e($reply->reply)) !!}
+                                        </div>
 
                                         <div class="meta">
                                             {{ $reply->created_at->diffForHumans() }}
@@ -561,7 +724,7 @@
                                             <a href="{{ route('support.replies.upvote', $reply) }}"
                                                class="vote-btn ajax-vote"
                                                data-score-id="reply-score-{{ $reply->id }}">
-                                                ⬆
+                                                ↑
                                             </a>
 
                                             <span class="score" id="reply-score-{{ $reply->id }}">
@@ -571,7 +734,7 @@
                                             <a href="{{ route('support.replies.downvote', $reply) }}"
                                                class="vote-btn ajax-vote"
                                                data-score-id="reply-score-{{ $reply->id }}">
-                                                ⬇
+                                                ↓
                                             </a>
                                         </div>
                                     </div>
@@ -589,7 +752,7 @@
                                 </div>
                             </div>
                         @empty
-                            <p style="margin-top: 10px;">
+                            <p class="empty-text">
                                 No approved advice yet.
                             </p>
                         @endforelse
@@ -609,6 +772,8 @@
 <footer>
     <p>© 2026 Sirius. Student Mental Wellness Platform.</p>
 </footer>
+
+@include('partials.helpline-widget')
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
