@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MoodEntryController;
 use App\Http\Controllers\SupportBoardController;
-use App\Http\Controllers\JournalController; // Added the Journal Controller import
+use App\Http\Controllers\JournalController; 
+use App\Http\Controllers\GoalController; // 1. Imported your new GoalController
 
 Route::get('/', function () {
     return view('home');
@@ -36,11 +37,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/community-forum', [JournalController::class, 'publicFeed'])
         ->name('forum.index');
 
-    // Wellness Goals & Resources Routes
-    Route::get('/goals', function () {
-        return view('goals');
-    })->name('goals');
+    // Wellness Goals Routes (2. Swapped static closures for dynamic controller mapping)
+    Route::get('/goals', [GoalController::class, 'index'])
+        ->name('goals.index');
 
+    Route::post('/goals', [GoalController::class, 'store'])
+        ->name('goals.store');
+
+    Route::patch('/goals/{goal}/toggle', [GoalController::class, 'toggleStatus'])
+        ->name('goals.toggle');
+
+    // Resources Route
     Route::get('/resources', function () {
         return view('resources');
     })->name('resources');
