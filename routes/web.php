@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MoodEntryController;
 use App\Http\Controllers\SupportBoardController;
+use App\Http\Controllers\JournalController; // Added the Journal Controller import
 
 Route::get('/', function () {
     return view('home');
@@ -15,6 +16,7 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // Mood Tracker Routes
     Route::get('/mood', [MoodEntryController::class, 'index'])
         ->name('mood.index');
 
@@ -24,10 +26,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/mood/{moodEntry}', [MoodEntryController::class, 'destroy'])
         ->name('mood.destroy');
 
-    Route::get('/journal', function () {
-        return view('journal');
-    })->name('journal');
+    // Journal & Community Forum Routes
+    Route::get('/journal', [JournalController::class, 'index'])
+        ->name('journal.index');
 
+    Route::post('/journal', [JournalController::class, 'store'])
+        ->name('journal.store');
+
+    Route::get('/community-forum', [JournalController::class, 'publicFeed'])
+        ->name('forum.index');
+
+    // Wellness Goals & Resources Routes
     Route::get('/goals', function () {
         return view('goals');
     })->name('goals');
@@ -36,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
         return view('resources');
     })->name('resources');
 
+    // Support Board Routes
     Route::get('/support', [SupportBoardController::class, 'index'])
         ->name('support.index');
 
@@ -63,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/support/replies/{supportReply}/downvote', [SupportBoardController::class, 'downvoteReply'])
         ->name('support.replies.downvote');
 
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
