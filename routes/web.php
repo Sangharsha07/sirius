@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoalController;
+use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MoodEntryController;
 use App\Http\Controllers\SupportBoardController;
@@ -8,6 +10,18 @@ use App\Http\Controllers\SupportBoardController;
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/about-us', function () {
+    return view('about-us');
+})->name('about.us');
+
+Route::get('/terms-and-conditions', function () {
+    return view('terms-and-conditions');
+})->name('terms');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -45,13 +59,20 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/journal', function () {
-        return view('journal');
-    })->name('journal');
+    Route::get('/journal', [JournalController::class, 'index'])
+        ->name('journal.index');
 
-    Route::get('/goals', function () {
-        return view('goals');
-    })->name('goals');
+    Route::post('/journal', [JournalController::class, 'store'])
+        ->name('journal.store');
+
+    Route::get('/goals', [GoalController::class, 'index'])
+        ->name('goals.index');
+
+    Route::post('/goals', [GoalController::class, 'store'])
+        ->name('goals.store');
+
+    Route::patch('/goals/{goal}/toggle', [GoalController::class, 'toggleStatus'])
+        ->name('goals.toggle');
 
     Route::get('/resources', function () {
         return view('resources');
@@ -131,6 +152,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+
 });
+/*
+|--------------------------------------------------------------------------
+| Global Route Aliases for Frontend Navigation Links
+|--------------------------------------------------------------------------
+*/
+// Point the plain 'journal' name to the same controller method
+Route::get('/journal-bridge', [JournalController::class, 'index'])->middleware('auth')->name('journal');
+
+// Point the plain 'goals' name to the same controller method
+Route::get('/goals-bridge', [GoalController::class, 'index'])->middleware('auth')->name('goals');
 
 require __DIR__.'/auth.php';

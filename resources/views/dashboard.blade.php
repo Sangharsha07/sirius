@@ -13,69 +13,89 @@
         }
 
         body {
-            background: #f5f7fb;
+            min-height: 100vh;
             color: #1f2937;
+            background: radial-gradient(circle at 10% 8%, rgba(196, 181, 253, 0.32), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(186, 230, 253, 0.48), transparent 28%),
+                        linear-gradient(180deg, #eef4ff 0%, #f8fbff 48%, #f7f4ff 100%);
         }
 
         .navbar {
-            background: white;
-            padding: 20px 8%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 14px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.86);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 28px rgba(30, 64, 175, 0.07);
         }
 
         .logo {
             font-size: 28px;
-            font-weight: bold;
-            color: #2563eb;
+            font-weight: 900;
+            color: #312e81;
             text-decoration: none;
         }
 
         .nav {
             display: flex;
             align-items: center;
-            gap: 22px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            color: #374151;
-            font-size: 16px;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 9px 13px;
+            border-radius: 999px;
+            transition: 0.2s ease;
+            border: 1px solid transparent;
         }
 
         .nav a:hover,
-        .nav a.active {
-            color: #2563eb;
+        .nav a.active,
+        .nav .active {
+            color: white;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.16);
         }
 
         .logout-btn {
-            background: #ef4444;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
             border: none;
             padding: 10px 16px;
             border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .logout-btn:hover {
-            background: #dc2626;
+            filter: brightness(1.05);
         }
 
         .page {
-            padding: 50px 8%;
+            padding: 50px 7%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .welcome {
-            background: linear-gradient(135deg, #2563eb, #60a5fa);
+            background: radial-gradient(circle at top right, rgba(255, 247, 186, 0.5), transparent 31%), linear-gradient(135deg, #3730a3, #6366f1, #7c3aed);
             color: white;
             padding: 35px;
             border-radius: 24px;
             margin-bottom: 30px;
-            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.22);
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.2);
         }
 
         .welcome h1 {
@@ -96,10 +116,11 @@
         }
 
         .card {
-            background: white;
+            background: rgba(255,255,255,0.95);
             padding: 28px;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            border: 1px solid rgba(226,232,240,0.9);
+            box-shadow: 0 20px 52px rgba(30,41,59,0.1);
         }
 
         .card h2 {
@@ -115,16 +136,16 @@
 
         .card a {
             display: inline-block;
-            background: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
             color: white;
             text-decoration: none;
             padding: 12px 18px;
             border-radius: 10px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .card a:hover {
-            background: #1d4ed8;
+            filter: brightness(1.05);
         }
 
         .stats {
@@ -135,10 +156,11 @@
         }
 
         .stat {
-            background: white;
+            background: rgba(255,255,255,0.95);
             padding: 24px;
             border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            border: 1px solid rgba(226,232,240,0.9);
+            box-shadow: 0 20px 52px rgba(30,41,59,0.08);
             text-align: center;
         }
 
@@ -159,10 +181,10 @@
         }
 
         footer {
-            background: #111827;
+            background: #08142f;
             color: white;
             text-align: center;
-            padding: 22px;
+            padding: 28px;
             margin-top: 40px;
         }
 

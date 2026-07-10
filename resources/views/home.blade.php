@@ -22,7 +22,9 @@
         }
 
         body {
-            background: #eef6ff;
+            background: radial-gradient(circle at 10% 8%, rgba(196, 181, 253, 0.32), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(186, 230, 253, 0.48), transparent 28%),
+                        linear-gradient(180deg, #eef4ff 0%, #f8fbff 48%, #f7f4ff 100%);
             color: #1f2937;
         }
 
@@ -31,7 +33,7 @@
             background:
                 radial-gradient(circle at 55% 28%, rgba(255, 244, 184, 0.95) 0%, rgba(255, 244, 184, 0.35) 8%, transparent 18%),
                 radial-gradient(circle at 80% 20%, rgba(255,255,255,0.8) 0%, transparent 16%),
-                linear-gradient(135deg, #123c91 0%, #3b82f6 42%, #c7d2fe 72%, #fff7ed 100%);
+                linear-gradient(135deg, #172554 0%, #3730a3 46%, #7c3aed 100%);
             position: relative;
             overflow: hidden;
         }
@@ -81,19 +83,31 @@
         .nav {
             display: flex;
             align-items: center;
-            gap: 22px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 13px;
+            border-radius: 999px;
             text-decoration: none;
-            color: rgba(255,255,255,0.92);
-            font-size: 16px;
-            font-weight: bold;
+            color: rgba(255,255,255,0.94);
+            font-size: 14px;
+            font-weight: 800;
+            transition: 0.2s ease;
+            border: 1px solid transparent;
         }
 
-        .nav a:hover {
-            color: #fff3b0;
+        .nav a:hover,
+        .nav a.active,
+        .nav .active {
+            color: #312e81;
+            background: rgba(255,255,255,0.94);
+            border-color: rgba(255,255,255,0.35);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
         }
 
         .logout-btn {
@@ -189,13 +203,13 @@
         }
 
         .btn-primary {
-            background: #4f46e5;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
             box-shadow: 0 14px 30px rgba(79,70,229,0.28);
         }
 
         .btn-primary:hover {
-            background: #4338ca;
+            background: linear-gradient(135deg, #4f46e5, #3730a3);
             transform: translateY(-2px);
         }
 
@@ -256,7 +270,7 @@
         .check-card {
             position: relative;
             z-index: 3;
-            background: rgba(255,255,255,0.88);
+            background: rgba(255,255,255,0.94);
             width: 390px;
             padding: 32px;
             border-radius: 30px;
@@ -273,7 +287,7 @@
         }
 
         .mood {
-            background: #eff6ff;
+            background: #f5f3ff;
             padding: 18px;
             border-radius: 18px;
             font-size: 19px;
@@ -305,12 +319,13 @@
         .features {
             position: relative;
             z-index: 5;
-            background: white;
+            background: rgba(255,255,255,0.95);
             margin: -45px 6% 0;
             padding: 42px;
             border-radius: 34px;
             box-shadow: 0 18px 50px rgba(15,23,42,0.12);
             text-align: center;
+            border: 1px solid rgba(226,232,240,0.9);
         }
 
         .features h2 {
@@ -504,7 +519,7 @@
             @auth
                 <a href="{{ route('dashboard') }}">Dashboard</a>
                 <a href="{{ route('mood.index') }}">Mood</a>
-                <a href="{{ route('journal') }}">Journal</a>
+                <a href="{{ route('journal.index') }}">Journal</a>
                 <a href="{{ route('goals') }}">Goals</a>
                 <a href="{{ route('resources') }}">Resources</a>
                 <a href="{{ route('support.index') }}">Support</a>
@@ -603,7 +618,7 @@
             <span class="arrow">→</span>
         </a>
 
-        <a href="{{ route('journal') }}" class="feature-card">
+        <a href="{{ route('journal.index') }}" class="feature-card">
             <div class="feature-icon">📘</div>
             <h3>Private Journal</h3>
             <p>Write and manage private journal entries.</p>
@@ -612,8 +627,8 @@
 
         <a href="{{ route('support.index') }}" class="feature-card">
             <div class="feature-icon">💬</div>
-            <h3>AI Comment Filtering</h3>
-            <p>Filter harmful or wrong advice on the support board.</p>
+            <h3>AI Moderated Forum</h3>
+            <p>Filters harmful or wrong advice on the Community Forum</p>
             <span class="arrow">→</span>
         </a>
 
@@ -643,6 +658,11 @@
 
 <footer>
     <p>✦ © 2026 Sirius. Student Mental Wellness Platform. ✦</p>
+    <div style="margin-top: 12px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <a href="{{ route('about.us') }}" style="color: #dbeafe; text-decoration: none; font-weight: 600;">About Us</a>
+        <a href="{{ route('terms') }}" style="color: #dbeafe; text-decoration: none; font-weight: 600;">Terms & Conditions</a>
+        <a href="{{ route('privacy') }}" style="color: #dbeafe; text-decoration: none; font-weight: 600;">Privacy Policy</a>
+    </div>
 </footer>
 
 @include('partials.helpline-widget')

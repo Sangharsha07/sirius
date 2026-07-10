@@ -35,9 +35,10 @@
         }
         .brand { display: flex; align-items: center; gap: 12px; color: #312e81; font-size: 27px; font-weight: 800; }
         .brand img { width: 49px; height: 49px; border-radius: 50%; object-fit: contain; box-shadow: 0 8px 22px rgba(79, 70, 229, 0.18); }
-        .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 17px; flex-wrap: wrap; }
-        .nav-links a { color: #475569; font-size: 14px; font-weight: 700; padding: 9px 11px; border-radius: 11px; transition: 0.2s; }
-        .nav-links a:hover { color: #4f46e5; background: #eef2ff; }
+        .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
+        .nav-links a { display: inline-flex; align-items: center; justify-content: center; color: #475569; font-size: 14px; font-weight: 700; padding: 9px 13px; border-radius: 999px; text-decoration: none; transition: 0.2s; border: 1px solid transparent; }
+        .nav-links a:hover,
+        .nav-links a.active,
         .nav-links .active { color: white; background: linear-gradient(135deg, #6366f1, #4f46e5); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2); }
         .logout-button { padding: 9px 13px; color: #475569; font-size: 14px; font-weight: 700; cursor: pointer; background: transparent; border: none; border-radius: 11px; }
         .logout-button:hover { color: #dc2626; background: #fef2f2; }
@@ -272,7 +273,7 @@
         <a href="/">Home</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
         <a href="{{ route('mood.index') }}">Mood</a>
-        <a href="{{ route('journal') }}">Journal</a>
+        <a href="{{ route('journal.index') }}">Journal</a>
         <a href="{{ route('goals') }}">Goals</a>
         <a href="{{ route('resources') }}">Resources</a>
         <a href="{{ route('support.index') }}" class="active">Support</a>

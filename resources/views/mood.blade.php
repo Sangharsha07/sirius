@@ -30,9 +30,10 @@
         .navbar { position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; min-height: 80px; padding: 14px 7%; background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid rgba(203, 213, 225, 0.75); backdrop-filter: blur(18px); box-shadow: 0 8px 28px rgba(30, 64, 175, 0.07); }
         .brand { display: flex; align-items: center; gap: 12px; color: #312e81; font-size: 28px; font-weight: 900; }
         .brand img { width: 50px; height: 50px; object-fit: contain; border-radius: 50%; box-shadow: 0 9px 24px rgba(79, 70, 229, 0.2); }
-        .nav { display: flex; align-items: center; justify-content: flex-end; gap: 16px; flex-wrap: wrap; }
-        .nav a { padding: 9px 11px; color: #475569; font-size: 14px; font-weight: 800; border-radius: 11px; transition: 0.2s ease; }
-        .nav a:hover { color: #4f46e5; background: #eef2ff; }
+        .nav { display: flex; align-items: center; justify-content: flex-end; gap: 12px; flex-wrap: wrap; }
+        .nav a { display: inline-flex; align-items: center; justify-content: center; padding: 9px 13px; color: #475569; font-size: 14px; font-weight: 800; border-radius: 999px; text-decoration: none; transition: 0.2s ease; border: 1px solid transparent; }
+        .nav a:hover,
+        .nav a.active,
         .nav .active { color: white; background: linear-gradient(135deg, #6366f1, #4f46e5); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2); }
 
         /* Hero */
@@ -202,7 +203,7 @@
         <a href="/">Home</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
         <a href="{{ route('mood.index') }}" class="active">Mood</a>
-        <a href="{{ route('journal') }}">Journal</a>
+        <a href="{{ route('journal.index') }}">Journal</a>
         <a href="{{ route('goals') }}">Goals</a>
         <a href="{{ route('resources') }}">Resources</a>
         <a href="{{ route('support.index') }}">Support</a>
