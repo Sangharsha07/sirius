@@ -517,6 +517,8 @@
 
                 @if($isAdmin)
                     <a href="{{ route('support.review') }}" class="quick-action admin-link">Open Moderation Panel →</a>
+                @elseif(auth()->check())
+                    <div class="empty-state">If you should have moderation access, sign in with one of the configured admin emails.</div>
                 @endif
             </div>
         </aside>

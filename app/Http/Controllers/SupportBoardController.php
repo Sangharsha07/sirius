@@ -247,17 +247,27 @@ class SupportBoardController extends Controller
         ]);
     }
 
-    private function ensureAdmin(): void
+    private function getAdminEmails(): array
     {
-        $adminEmails = collect(config('services.admin.emails', []))
+        return collect(config('services.admin.emails', []))
             ->map(fn ($email) => strtolower(trim($email)))
             ->filter()
             ->values()
             ->toArray();
+    }
 
-        $userEmail = strtolower(trim(auth()->user()->email ?? ''));
+    private function isAdminUser(): bool
+    {
+        return auth()->check() && in_array(
+            strtolower(trim(auth()->user()->email)),
+            $this->getAdminEmails(),
+            true
+        );
+    }
 
-        if (!$userEmail || !in_array($userEmail, $adminEmails, true)) {
+    private function ensureAdmin(): void
+    {
+        if (!$this->isAdminUser()) {
             abort(403, 'Only website admins can access this page.');
         }
     }
