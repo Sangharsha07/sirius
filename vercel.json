@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "outputDirectory": "public",
+    "framework": null,
+    "routes": [
+        {
+            "src": "/build/(.*)",
+            "dest": "/build/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.php"
+        }
+    ]
+}
