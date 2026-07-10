@@ -29,6 +29,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/mood', [MoodEntryController::class, 'index'])
         ->name('mood.index');
+        
+    Route::post('/mood/analyze',[MoodEntryController::class, 'analyze'])
+        ->name('mood.analyze');
 
     Route::post('/mood', [MoodEntryController::class, 'store'])
         ->name('mood.store');
