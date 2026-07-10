@@ -190,7 +190,6 @@ Route::middleware(['auth'])->group(function () {
 | Global Route Aliases for Frontend Navigation Links
 |--------------------------------------------------------------------------
 */
-Route::get('/journal-bridge', [JournalController::class, 'index'])->middleware('auth')->name('journal');
 Route::get('/goals-bridge', [GoalController::class, 'index'])->middleware('auth')->name('goals');
 
 require __DIR__.'/auth.php';

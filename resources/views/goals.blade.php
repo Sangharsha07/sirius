@@ -89,7 +89,7 @@
         <a href="{{ route('goals.index') }}" class="active">Goals</a>
         <a href="{{ route('resources') }}">Resources</a>
         <a href="{{ route('support.index') }}">Support</a>
-        <button id="darkModeToggle" class="dark-mode-toggle">... Loading ...</button>
+        <button id="darkModeToggle" class="dark-mode-toggle" type="button">🌙</button>
     </nav>
 </header>
 

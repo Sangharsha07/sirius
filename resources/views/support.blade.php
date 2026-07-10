@@ -516,7 +516,7 @@
                 @endphp
 
                 @if($isAdmin)
-                    <a href="{{ route('support.review') }}" class="quick-action admin-link">Open Moderation Queue →</a>
+                    <a href="{{ route('support.review') }}" class="quick-action admin-link">Open Moderation Panel →</a>
                 @endif
             </div>
         </aside>

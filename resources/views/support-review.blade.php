@@ -153,7 +153,7 @@
 <body>
 
 <div class="top">
-    <h1>Sirius Review Queue</h1>
+    <h1>Sirius Moderation Panel</h1>
     <a href="{{ route('support.index') }}">Back to Support Board</a>
 </div>
 
@@ -162,6 +162,10 @@
         {{ session('success') }}
     </div>
 @endif
+
+<p style="margin-bottom: 26px; color: #475569; max-width: 820px; line-height: 1.75;">
+    Use this panel to approve or remove content that is pending review and to moderate recent published posts and replies.
+</p>
 
 <h2>Posts Waiting for Review</h2>
 
@@ -257,6 +261,75 @@
 @empty
     <div class="empty">
         No replies waiting for review.
+    </div>
+@endforelse
+
+<h2>Recently Approved Posts</h2>
+
+@forelse($approvedPosts as $post)
+    <div class="card">
+        <div class="title">
+            {{ $post->title }}
+        </div>
+
+        <div class="meta">
+            Posted by {{ $post->anonymous_name }} |
+            Category: {{ $post->category ?? 'General Support' }} |
+            {{ $post->created_at->diffForHumans() }}
+        </div>
+
+        <div class="content">
+            {!! nl2br(e($post->body)) !!}
+        </div>
+
+        <div class="actions">
+            <form method="POST" action="{{ route('support.review.posts.reject', $post) }}">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="reject" onclick="return confirm('Delete this approved post?');">
+                    Delete Post
+                </button>
+            </form>
+        </div>
+    </div>
+@empty
+    <div class="empty">
+        No recently approved posts have been published yet.
+    </div>
+@endforelse
+
+<h2>Recently Approved Replies</h2>
+
+@forelse($approvedReplies as $reply)
+    <div class="card">
+        <div class="title">
+            Reply on post: {{ $reply->post->title ?? 'Deleted post' }}
+        </div>
+
+        <div class="meta">
+            Reply by {{ $reply->anonymous_name }} |
+            {{ $reply->created_at->diffForHumans() }}
+        </div>
+
+        <div class="content">
+            {!! nl2br(e($reply->reply)) !!}
+        </div>
+
+        <div class="actions">
+            <form method="POST" action="{{ route('support.review.replies.reject', $reply) }}">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="reject" onclick="return confirm('Delete this approved reply?');">
+                    Delete Reply
+                </button>
+            </form>
+        </div>
+    </div>
+@empty
+    <div class="empty">
+        No recently approved replies are available for review.
     </div>
 @endforelse
 

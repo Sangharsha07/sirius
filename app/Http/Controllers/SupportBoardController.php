@@ -275,7 +275,18 @@ class SupportBoardController extends Controller
             ->latest()
             ->get();
 
-        return view('support-review', compact('posts', 'replies'));
+        $approvedPosts = SupportPost::where('status', 'approved')
+            ->latest()
+            ->limit(12)
+            ->get();
+
+        $approvedReplies = SupportReply::where('status', 'approved')
+            ->with('post')
+            ->latest()
+            ->limit(20)
+            ->get();
+
+        return view('support-review', compact('posts', 'replies', 'approvedPosts', 'approvedReplies'));
     }
 
     public function approvePost(SupportPost $supportPost)
