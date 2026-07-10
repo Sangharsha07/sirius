@@ -1,3 +1,26 @@
+/* ==========================================================================
+   1. RESET, BASE LAYOUT & CORE THEMES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    color: #1f2937;
+    background: radial-gradient(circle at 10% 8%, rgba(196, 181, 253, 0.32), transparent 25%),
+                radial-gradient(circle at 91% 17%, rgba(186, 230, 253, 0.48), transparent 28%),
+                linear-gradient(180deg, #eef4ff 0%, #f8fbff 48%, #f7f4ff 100%);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
 .page {
     padding: 60px 8%;
     min-height: 80vh;
@@ -18,20 +41,84 @@
     line-height: 1.7;
 }
 
-.form-box {
+/* Dark Mode Global overrides */
+body.dark-mode {
+    background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+    color: #e5e7eb;
+}
+
+/* ==========================================================================
+   2. CONTAINERS & CARDS
+   ========================================================================== */
+.form-box,
+.section-box,
+.dashboard-card,
+.resource-card {
     background: white;
     padding: 30px;
     border-radius: 18px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
-    max-width: 700px;
     margin-bottom: 35px;
 }
 
-.form-box h2 {
+.dashboard-card,
+.resource-card {
+    padding: 25px;
+    margin-bottom: 0;
+}
+
+.form-box h2,
+.section-box h2 {
     margin-bottom: 20px;
     color: #111827;
 }
 
+.list-item {
+    background: #f5f7fb;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.list-item strong {
+    color: #2563eb;
+}
+
+.list-item p,
+.resource-card p {
+    margin-top: 8px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.feature-card {
+    display: block;
+    background: #f3f6fb;
+    padding: 35px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #1f2937;
+    transition: 0.2s ease;
+}
+
+.feature-card h3,
+.dashboard-card h3,
+.resource-card h3 {
+    color: #2563eb;
+    margin-bottom: 12px;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    background: #eef6ff;
+}
+
+/* ==========================================================================
+   3. FORMS, INPUTS & BUTTONS
+   ========================================================================== */
 .form-box label {
     display: block;
     margin-top: 15px;
@@ -55,16 +142,20 @@
     resize: vertical;
 }
 
+/* Unified Action Elements */
 .form-box button,
-.resource-card button {
-    margin-top: 20px;
-    background: #2563eb;
-    color: white;
+.resource-card button,
+.ai-btn,
+.vote-btn {
     border: none;
     padding: 13px 24px;
     border-radius: 10px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    background: #2563eb;
+    color: white;
+    transition: background 0.2s ease;
 }
 
 .form-box button:hover,
@@ -72,52 +163,92 @@
     background: #1d4ed8;
 }
 
-.section-box {
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
-    margin-top: 30px;
+.ai-btn {
+    background: #7c3aed;
+    margin-right: 10px;
 }
 
-.section-box h2 {
-    margin-bottom: 20px;
+.ai-btn:hover {
+    background: #6d28d9;
 }
 
-.list-item {
-    background: #f5f7fb;
-    padding: 18px;
-    border-radius: 12px;
-    margin-bottom: 15px;
+/* Forum Vote Systems */
+.vote-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
 }
 
-.list-item strong {
+.vote-box form {
+    display: inline;
+}
+
+.vote-btn {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 7px 10px;
+    border-radius: 8px;
+}
+
+.vote-btn:hover {
+    background: #dbeafe;
     color: #2563eb;
 }
 
-.list-item p {
-    margin-top: 8px;
-    color: #4b5563;
-    line-height: 1.6;
+.floating-post-button {
+    position: fixed !important;
+    left: 24px;
+    bottom: 24px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 19px;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.38);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dashboard-grid {
+.floating-post-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(79, 70, 229, 0.45);
+}
+
+.floating-post-button .post-button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    font-size: 15px;
+}
+
+#create-post {
+    scroll-margin-top: 100px;
+}
+
+/* ==========================================================================
+   4. GRID LAYOUTS & GRAPH ELEMENTS
+   ========================================================================== */
+.dashboard-grid,
+.resource-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 22px;
     margin-bottom: 35px;
 }
 
-.dashboard-card {
-    background: white;
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
-}
-
-.dashboard-card h3 {
-    color: #2563eb;
-    margin-bottom: 12px;
+.resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
 
 .big-text {
@@ -150,29 +281,9 @@
     font-size: 14px;
 }
 
-.resource-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-}
-
-.resource-card {
-    background: white;
-    padding: 28px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
-}
-
-.resource-card h3 {
-    color: #2563eb;
-    margin-bottom: 12px;
-}
-
-.resource-card p {
-    color: #4b5563;
-    line-height: 1.6;
-}
-
+/* ==========================================================================
+   5. UTILITIES & FLAGGING SYSTEM
+   ========================================================================== */
 .small-note {
     margin-top: 15px;
     font-size: 14px;
@@ -188,162 +299,15 @@
     margin-bottom: 10px;
 }
 
-.flag-general {
-    background: #e5e7eb;
-    color: #374151;
-}
+.flag-general       { background: #e5e7eb; color: #374151; }
+.flag-serious       { background: #fef3c7; color: #92400e; }
+.flag-urgent        { background: #fee2e2; color: #991b1b; }
+.flag-advice_needed { background: #dbeafe; color: #1d4ed8; }
+.flag-academic      { background: #dcfce7; color: #166534; }
 
-.flag-serious {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.flag-urgent {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.flag-advice_needed {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-.flag-academic {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.vote-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.vote-box form {
-    display: inline;
-}
-
-.vote-btn {
-    background: #f3f4f6;
-    color: #374151;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 0;
-}
-
-.vote-btn:hover {
-    background: #dbeafe;
-    color: #2563eb;
-}
-
-.feature-card {
-    display: block;
-    background: #f3f6fb;
-    padding: 35px;
-    border-radius: 18px;
-    text-decoration: none;
-    color: #1f2937;
-    transition: 0.2s ease;
-}
-
-.feature-card h3 {
-    color: #2563eb;
-    margin-bottom: 15px;
-}
-
-.feature-card p {
-    color: #1f2937;
-}
-
-.feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    background: #eef6ff;
-}
-.floating-post-button {
-    position: fixed !important;
-    left: 24px;
-    bottom: 24px;
-    z-index: 10000;
-
-    display: flex;
-    align-items: center;
-    gap: 9px;
-
-    padding: 13px 19px;
-
-    color: white;
-    font-size: 14px;
-    font-weight: 800;
-    text-decoration: none;
-
-    background: linear-gradient(
-        135deg,
-        #6366f1,
-        #7c3aed
-    );
-
-    border-radius: 999px;
-
-    box-shadow:
-        0 12px 30px
-        rgba(79, 70, 229, 0.38);
-
-    transition: 0.2s ease;
-}
-
-.floating-post-button:hover {
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 17px 38px
-        rgba(79, 70, 229, 0.48);
-}
-
-.post-button-icon {
-    font-size: 17px;
-}
-
-#create-post {
-    scroll-margin-top: 100px;
-}
-
-.floating-post-button:hover {
-    transform: translateY(-4px);
-
-    box-shadow: 0 18px 40px rgba(79, 70, 229, 0.45);
-}
-
-.floating-post-button .post-button-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 28px;
-    height: 28px;
-
-    background: rgba(255, 255, 255, 0.18);
-    border-radius: 50%;
-
-    font-size: 15px;
-}
-
-@media (max-width: 700px) {
-    .floating-post-button {
-        left: 14px;
-        bottom: 78px;
-
-        padding: 12px 16px;
-    }
-
-    .floating-post-button .button-text {
-        display: none;
-    }
-}
-
+/* ==========================================================================
+   6. RESPONSIVE MEDIA PIPELINES
+   ========================================================================== */
 @media (max-width: 1000px) {
     .dashboard-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -352,7 +316,18 @@
     .resource-grid {
         grid-template-columns: 1fr;
     }
-    
+}
+
+@media (max-width: 700px) {
+    .floating-post-button {
+        left: 14px;
+        bottom: 78px;
+        padding: 12px 16px;
+    }
+
+    .floating-post-button .button-text {
+        display: none;
+    }
 }
 
 @media (max-width: 650px) {
@@ -374,19 +349,4 @@
         margin-left: 0;
         font-size: 14px;
     }
-}
-.ai-btn {
-    background: #7c3aed;
-    color: white;
-    border: none;
-    padding: 15px 28px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.ai-btn:hover {
-    background: #6d28d9;
 }
