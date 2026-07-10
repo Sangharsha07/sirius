@@ -8,6 +8,11 @@ use App\Http\Controllers\MoodEntryController;
 use App\Http\Controllers\SupportBoardController;
 use App\Http\Controllers\DashboardController;
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('home');
 });
@@ -24,6 +29,11 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 })->name('privacy');
 
+/*
+|--------------------------------------------------------------------------
+| Authenticated Platform Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth'])->group(function () {
 
     /*
@@ -31,7 +41,6 @@ Route::middleware(['auth'])->group(function () {
     | Dashboard
     |--------------------------------------------------------------------------
     */
-
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
@@ -40,11 +49,10 @@ Route::middleware(['auth'])->group(function () {
     | Mood Tracker Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/mood', [MoodEntryController::class, 'index'])
         ->name('mood.index');
         
-    Route::post('/mood/analyze',[MoodEntryController::class, 'analyze'])
+    Route::post('/mood/analyze', [MoodEntryController::class, 'analyze'])
         ->name('mood.analyze');
 
     Route::post('/mood', [MoodEntryController::class, 'store'])
@@ -55,16 +63,20 @@ Route::middleware(['auth'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Other Sirius Pages
+    | Private Journal Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/journal', [JournalController::class, 'index'])
         ->name('journal.index');
 
     Route::post('/journal', [JournalController::class, 'store'])
         ->name('journal.store');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Wellness Goals Routes
+    |--------------------------------------------------------------------------
+    */
     Route::get('/goals', [GoalController::class, 'index'])
         ->name('goals.index');
 
@@ -74,16 +86,36 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/goals/{goal}/toggle', [GoalController::class, 'toggleStatus'])
         ->name('goals.toggle');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Wellness Resources & Static Sub-Resource Pages
+    |--------------------------------------------------------------------------
+    */
     Route::get('/resources', function () {
         return view('resources');
     })->name('resources');
 
+    Route::get('/resources/counseling', function () {
+        return view('resources.counseling');
+    })->name('resources.counseling');
+
+    Route::get('/resources/stress', function () {
+        return view('resources.stress');
+    })->name('resources.stress');
+
+    Route::get('/resources/sleep', function () {
+        return view('resources.sleep');
+    })->name('resources.sleep');
+
+    Route::get('/resources/emergency', function () {
+        return view('resources.emergency');
+    })->name('resources.emergency');
+
     /*
     |--------------------------------------------------------------------------
-    | Support Board Routes
+    | Community Forum (Support Board) Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/support', [SupportBoardController::class, 'index'])
         ->name('support.index');
 
@@ -104,7 +136,6 @@ Route::middleware(['auth'])->group(function () {
     | Support Voting Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/support/posts/{supportPost}/upvote', [SupportBoardController::class, 'upvotePost'])
         ->name('support.posts.upvote');
 
@@ -122,7 +153,6 @@ Route::middleware(['auth'])->group(function () {
     | Admin Review Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/support/review', [SupportBoardController::class, 'reviewQueue'])
         ->name('support.review');
 
@@ -143,10 +173,10 @@ Route::middleware(['auth'])->group(function () {
     | Breeze Profile Routes
     |--------------------------------------------------------------------------
     */
-
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
+    // Fixed typo here from xlatch to Route::patch
     Route::patch('/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
 
@@ -154,15 +184,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('profile.destroy');
 
 });
+
 /*
 |--------------------------------------------------------------------------
 | Global Route Aliases for Frontend Navigation Links
 |--------------------------------------------------------------------------
 */
-// Point the plain 'journal' name to the same controller method
 Route::get('/journal-bridge', [JournalController::class, 'index'])->middleware('auth')->name('journal');
-
-// Point the plain 'goals' name to the same controller method
 Route::get('/goals-bridge', [GoalController::class, 'index'])->middleware('auth')->name('goals');
 
 require __DIR__.'/auth.php';

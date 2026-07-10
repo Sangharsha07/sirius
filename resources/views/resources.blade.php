@@ -71,7 +71,7 @@
         <a href="{{ route('journal.index') }}">Journal</a>
         <a href="{{ route('goals.index') }}">Goals</a>
         <a href="{{ route('resources') }}" class="active">Resources</a>
-        <a href="{{ route('support.index') }}">Support</a>
+        <a href="{{ route('support.index') }}">Community</a>
         <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
     </nav>
 </header>
@@ -86,25 +86,25 @@
         <div class="card">
             <h2>Campus Counseling</h2>
             <p>Information about university counseling and student support services.</p>
-            <a href="#">View resource</a>
+            <a href="{{ route('resources.counseling') }}">View resource</a>
         </div>
 
         <div class="card">
             <h2>Stress Management</h2>
             <p>Simple techniques for managing academic stress and deadlines.</p>
-            <a href="#">View resource</a>
+            <a href="{{ route('resources.stress') }}">View resource</a>
         </div>
 
         <div class="card">
             <h2>Sleep & Routine</h2>
             <p>Tips to improve sleep habits and daily routine structure plans.</p>
-            <a href="#">View resource</a>
+            <a href="{{ route('resources.sleep') }}">View resource</a>
         </div>
 
         <div class="card">
             <h2>Emergency Support</h2>
             <p>Important contacts and support options for urgent help pipelines.</p>
-            <a href="#" class="urgent">Get urgent help</a>
+            <a href="{{ route('resources.emergency') }}" class="urgent">Get urgent help</a>
         </div>
     </div>
 </main>
