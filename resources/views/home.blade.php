@@ -26,6 +26,14 @@
                         radial-gradient(circle at 91% 17%, rgba(186, 230, 253, 0.48), transparent 28%),
                         linear-gradient(180deg, #eef4ff 0%, #f8fbff 48%, #f7f4ff 100%);
             color: #1f2937;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
         }
 
         .page-bg {
@@ -36,6 +44,13 @@
                 linear-gradient(135deg, #172554 0%, #3730a3 46%, #7c3aed 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        body.dark-mode .page-bg {
+            background:
+                radial-gradient(circle at 55% 28%, rgba(88, 28, 135, 0.6) 0%, rgba(88, 28, 135, 0.2) 8%, transparent 18%),
+                radial-gradient(circle at 80% 20%, rgba(30, 41, 59, 0.6) 0%, transparent 16%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1a40 46%, #2d1b50 100%);
         }
 
         .page-bg::before {
@@ -59,6 +74,11 @@
             justify-content: space-between;
             align-items: center;
             color: white;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(15, 23, 42, 0.7);
         }
 
         .logo-wrap {
@@ -85,6 +105,31 @@
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
+        }
+
+        .dark-mode-toggle {
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: white;
+            cursor: pointer;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.28);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        body.dark-mode .dark-mode-toggle:hover {
+            background: rgba(30, 41, 59, 0.8);
         }
 
         .nav a {
@@ -167,20 +212,22 @@
         h1 {
             font-size: 58px;
             line-height: 1.12;
-            color: #071b4d;
+            color: #ffffff;
             margin-bottom: 22px;
             letter-spacing: -1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .highlight {
-            color: #4f46e5;
+            color: #fef3c7;
         }
 
         .desc {
             font-size: 19px;
             line-height: 1.8;
-            color: #1f2f56;
+            color: #f0f4ff;
             max-width: 650px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
         }
 
         .buttons {
@@ -326,6 +373,13 @@
             box-shadow: 0 18px 50px rgba(15,23,42,0.12);
             text-align: center;
             border: 1px solid rgba(226,232,240,0.9);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .features {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.4);
         }
 
         .features h2 {
@@ -334,10 +388,18 @@
             margin-bottom: 10px;
         }
 
+        body.dark-mode .features h2 {
+            color: #f1f5f9;
+        }
+
         .features > p {
             color: #4b5563;
             font-size: 17px;
             margin-bottom: 30px;
+        }
+
+        body.dark-mode .features > p {
+            color: #cbd5e1;
         }
 
         .feature-grid {
@@ -418,6 +480,11 @@
             text-align: center;
             padding: 28px;
             margin-top: 0;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode footer {
+            background: #030712;
         }
 
         @keyframes pulse {
@@ -501,6 +568,108 @@
                 padding: 28px;
             }
         }
+
+        /* Dark Mode */
+        body {
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+
+        .dark-mode-toggle {
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: white;
+            cursor: pointer;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.28);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        body.dark-mode .dark-mode-toggle:hover {
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        body.dark-mode .page-bg {
+            background:
+                radial-gradient(circle at 55% 28%, rgba(88, 28, 135, 0.6) 0%, rgba(88, 28, 135, 0.2) 8%, transparent 18%),
+                radial-gradient(circle at 80% 20%, rgba(30, 41, 59, 0.6) 0%, transparent 16%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1a40 46%, #2d1b50 100%);
+        }
+
+        body.dark-mode .features {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+        }
+
+        body.dark-mode .features h2 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .features > p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .feature-card {
+            color: #e5e7eb;
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+
+        body.dark-mode .feature-card h3 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .feature-card p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .check-card {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(71, 85, 105, 0.5);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+        }
+
+        body.dark-mode .check-card h2 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .check-card p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .mood {
+            background: rgba(51, 65, 85, 0.6);
+            color: #e5e7eb;
+        }
+
+        body.dark-mode footer {
+            background: #030712;
+        }
+
+        body.dark-mode footer a {
+            color: #93c5fd;
+        }
+
+        body.dark-mode footer a:hover {
+            color: #bfdbfe;
+        }
     </style>
 </head>
 <body>
@@ -535,6 +704,8 @@
                 <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('register') }}">Register</a>
             @endauth
+
+            <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
         </nav>
     </header>
 
@@ -667,5 +838,6 @@
 
 @include('partials.helpline-widget')
 
+@include('partials.theme-script')
 </body>
 </html>

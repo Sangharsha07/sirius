@@ -213,6 +213,76 @@
                 font-size: 30px;
             }
         }
+
+        /* Dark Mode */
+        body {
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+
+        .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            color: white;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            transition: 0.2s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        body.dark-mode .card {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+
+        body.dark-mode .card h2 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .card p,
+        body.dark-mode .card a {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .card a {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        body.dark-mode .stat {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+
+        body.dark-mode .stat h3 {
+            color: #93c5fd;
+        }
+
+        body.dark-mode .stat p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .welcome {
+            background: radial-gradient(circle at top right, rgba(88, 28, 135, 0.4), transparent 31%), linear-gradient(135deg, #1a1a40, #2d1b50, #3d1d5c);
+        }
+
+        body.dark-mode footer {
+            background: #030712;
+        }
     </style>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/favicon.png') }}">
@@ -237,6 +307,8 @@
                 Logout
             </button>
         </form>
+
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
     </nav>
 </header>
 
@@ -252,17 +324,17 @@
 
     <div class="stats">
         <div class="stat">
-            <h3>😊</h3>
+            <h3>{{ $currentMoodEmoji }}</h3>
             <p>Current Mood</p>
         </div>
 
         <div class="stat">
-            <h3>45%</h3>
+            <h3>{{ $stressLevel }}%</h3>
             <p>Stress Level</p>
         </div>
 
         <div class="stat">
-            <h3>3</h3>
+            <h3>{{ $activeGoals }}</h3>
             <p>Goals Active</p>
         </div>
 
@@ -331,5 +403,6 @@
 </footer>
 @include('partials.helpline-widget')
 
+@include('partials.theme-script')
 </body>
 </html>

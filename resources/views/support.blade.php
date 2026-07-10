@@ -21,6 +21,7 @@
             background: radial-gradient(circle at 12% 8%, rgba(196, 181, 253, 0.42), transparent 24%),
                         radial-gradient(circle at 90% 22%, rgba(186, 230, 253, 0.55), transparent 25%),
                         linear-gradient(180deg, #eef4ff 0%, #f9fbff 42%, #f7f4ff 100%);
+            transition: background 0.3s ease, color 0.3s ease;
         }
         a { text-decoration: none; }
         button, input, textarea, select { font: inherit; }
@@ -44,7 +45,7 @@
         .logout-button:hover { color: #dc2626; background: #fef2f2; }
 
         /* ---------------------------------
-           HERO
+           HERO SECTION
         ---------------------------------- */
         .support-hero {
             position: relative; overflow: hidden; padding: 75px 7% 135px; color: white;
@@ -71,7 +72,7 @@
         .hero-orbit::after { content: "✦"; position: absolute; right: 32px; bottom: 35px; color: #fef3c7; font-size: 19px; }
 
         /* ---------------------------------
-           PAGE WRAPPER & ALERTS
+           PAGE CONTAINER & FLASHES
         ---------------------------------- */
         .page { position: relative; z-index: 4; max-width: 1400px; margin: -75px auto 80px; padding: 0 7%; }
         .flash { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; padding: 17px 19px; line-height: 1.6; border-radius: 17px; box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08); }
@@ -81,7 +82,7 @@
         .flash-error ul { margin-top: 7px; padding-left: 21px; }
 
         /* ---------------------------------
-           TOP GRID & COMPOSER
+           LAYOUT COMPOSER
         ---------------------------------- */
         .top-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr); gap: 24px; margin-bottom: 32px; }
         .composer { padding: 33px; background: rgba(255, 255, 255, 0.94); border: 1px solid rgba(224, 231, 255, 0.95); border-radius: 29px; box-shadow: 0 24px 60px rgba(49, 46, 129, 0.13); }
@@ -97,9 +98,6 @@
         .field-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 7px; color: #94a3b8; font-size: 12px; }
         .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-        /* ---------------------------------
-           FLAG / LEVEL OPTIONS
-        ---------------------------------- */
         .level-title { margin-bottom: 11px; color: #334155; font-size: 14px; font-weight: 800; }
         .level-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; margin-bottom: 22px; }
         .level-option input { display: none; }
@@ -227,6 +225,71 @@
         #create-post { scroll-margin-top: 105px; }
 
         /* ---------------------------------
+           DARK MODE STYLING OVERRIDES
+        ---------------------------------- */
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+        .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.05);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            cursor: pointer;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+        .dark-mode-toggle:hover { background: rgba(30, 41, 59, 0.15); }
+        body.dark-mode .dark-mode-toggle { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+        body.dark-mode .dark-mode-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
+        body.dark-mode .navbar { background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        body.dark-mode .brand { color: #e0e7ff; }
+        body.dark-mode .nav-links a { color: #94a3b8; }
+        body.dark-mode .nav-links a:hover, body.dark-mode .nav-links a.active { color: white; }
+        body.dark-mode .logout-button { color: #94a3b8; }
+        body.dark-mode .logout-button:hover { background: rgba(220, 38, 38, 0.15); color: #fca5a5; }
+        body.dark-mode .support-hero {
+            background: radial-gradient(circle at 75% 35%, rgba(88, 28, 135, 0.6), transparent 16%),
+                        linear-gradient(135deg, #0a0e27 0%, #1a1a40 46%, #2d1b50 100%);
+        }
+        body.dark-mode .composer, body.dark-mode .side-card, body.dark-mode .post-card, body.dark-mode .empty-state {
+            background: rgba(30, 41, 59, 0.85); border-color: rgba(71, 85, 105, 0.5); box-shadow: 0 20px 52px rgba(0,0,0,0.3);
+        }
+        body.dark-mode .composer-heading h2, body.dark-mode .side-card h3, body.dark-mode .feed-heading h2, body.dark-mode .post-title, body.dark-mode .reply-composer-title, body.dark-mode .empty-state h3, body.dark-mode h2 {
+            color: #f1f5f9;
+        }
+        body.dark-mode .composer-subtitle, body.dark-mode .form-label, body.dark-mode .field-footer, body.dark-mode .level-title, body.dark-mode .side-card p, body.dark-mode .feed-heading p, body.dark-mode .post-time, body.dark-mode .conversation-count, body.dark-mode .conversation-heading, body.dark-mode .reply-time, body.dark-mode .empty-state p, body.dark-mode .moderation-note {
+            color: #94a3b8;
+        }
+        body.dark-mode .field, body.dark-mode .level-card, body.dark-mode .reply-textarea, body.dark-mode .reply-name {
+            background: #1e293b; border-color: #334155; color: #f1f5f9;
+        }
+        body.dark-mode .field:focus, body.dark-mode .reply-textarea:focus { background: #1e293b; border-color: #818cf8; }
+        body.dark-mode .level-card:hover { background: #243249; }
+        body.dark-mode .level-option input:checked + .level-card { color: #818cf8; background: rgba(99, 102, 241, 0.15); border-color: #818cf8; }
+        body.dark-mode .community-rule { color: #cbd5e1; }
+        body.dark-mode .community-rule span, body.dark-mode .quick-action { background: #1e293b; color: #818cf8; }
+        body.dark-mode .quick-action:hover { background: #243249; }
+        body.dark-mode .admin-link { color: #fcd34d; background: rgba(217, 119, 6, 0.15); }
+        body.dark-mode .admin-link:hover { background: rgba(217, 119, 6, 0.25); }
+        body.dark-mode .post-count { background: #1e293b; color: #818cf8; }
+        body.dark-mode .author-name { color: #e2e8f0; }
+        body.dark-mode .post-body, body.dark-mode .reply-text { color: #cbd5e1; }
+        body.dark-mode .vote-group, body.dark-mode .reply-vote { background: #111827; }
+        body.dark-mode .vote-button { background: #1e293b; border-color: #334155; color: #94a3b8; }
+        body.dark-mode .vote-button:hover { background: #243249; color: #818cf8; border-color: #818cf8; }
+        body.dark-mode .vote-score { color: #e2e8f0; }
+        body.dark-mode .conversation-area { background: linear-gradient(180deg, #1e293b 0%, #111827 100%); border-top-color: #334155; }
+        body.dark-mode .reply-content { background: #111827; border-color: #334155; }
+        body.dark-mode .reply-content::before { background: #111827; border-left-color: #334155; border-top-color: #334155; }
+        body.dark-mode .reply-author { color: #f1f5f9; }
+        body.dark-mode .reply-composer { background: #111827; border-color: #334155; }
+
+        /* ---------------------------------
            ANIMATIONS & RESPONSIVE
         ---------------------------------- */
         @keyframes starPulse { 0%, 100% { opacity: 0.92; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
@@ -281,6 +344,7 @@
             @csrf
             <button type="submit" class="logout-button">Logout</button>
         </form>
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
     </nav>
 </header>
 
@@ -667,5 +731,6 @@
     });
 </script>
 
+@include('partials.theme-script')
 </body>
 </html>

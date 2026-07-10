@@ -29,6 +29,35 @@
         .card a { display: inline-block; padding: 11px 16px; color: white; font-weight: 800; border-radius: 12px; text-decoration: none; background: linear-gradient(135deg, #2563eb, #3b82f6); }
         .card .urgent { background: linear-gradient(135deg, #ef4444, #dc2626); }
         footer { padding: 28px; color: white; text-align: center; background: #08142f; }
+
+        /* Dark Mode Styling Rules */
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+        body.dark-mode .navbar { background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        body.dark-mode .brand { color: #e0e7ff; }
+        body.dark-mode .nav a { color: #94a3b8; }
+        body.dark-mode .nav a:hover, body.dark-mode .nav a.active { color: white; }
+        body.dark-mode .card { background: rgba(30, 41, 59, 0.85); border-color: rgba(71, 85, 105, 0.5); box-shadow: 0 20px 52px rgba(0,0,0,0.3); }
+        body.dark-mode .card h2 { color: #f1f5f9; }
+        body.dark-mode .card p { color: #94a3b8; }
+        
+        .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.05);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            cursor: pointer;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+        .dark-mode-toggle:hover { background: rgba(30, 41, 59, 0.15); }
+        body.dark-mode .dark-mode-toggle { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+        body.dark-mode .dark-mode-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
         @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -43,6 +72,7 @@
         <a href="{{ route('goals.index') }}">Goals</a>
         <a href="{{ route('resources') }}" class="active">Resources</a>
         <a href="{{ route('support.index') }}">Support</a>
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
     </nav>
 </header>
 
@@ -80,5 +110,7 @@
 </main>
 
 <footer>© 2026 Sirius. Student mental wellness platform.</footer>
+
+@include('partials.theme-script')
 </body>
 </html>

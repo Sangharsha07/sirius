@@ -164,6 +164,53 @@
         /* Footer */
         footer { padding: 28px; color: white; text-align: center; background: #08142f; }
 
+        /* Dark Mode Utility Overrides */
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+        body.dark-mode .navbar { background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        body.dark-mode .brand { color: #e0e7ff; }
+        body.dark-mode .nav a { color: #94a3b8; }
+        body.dark-mode .nav a:hover, body.dark-mode .nav a.active { color: white; }
+        body.dark-mode .card { background: rgba(30, 41, 59, 0.85); border-color: rgba(71, 85, 105, 0.5); box-shadow: 0 20px 52px rgba(0,0,0,0.3); }
+        body.dark-mode .card h2, body.dark-mode .history-title, body.dark-mode .form-label { color: #f1f5f9; }
+        body.dark-mode .card-description, body.dark-mode .history-meta, body.dark-mode .privacy-note { color: #94a3b8; }
+        body.dark-mode .field { background: #1e293b; border-color: #334155; color: #f1f5f9; }
+        body.dark-mode .field:focus { background: #1e293b; border-color: #818cf8; }
+        body.dark-mode .mood-option { background: #1e293b; color: #94a3b8; }
+        body.dark-mode .mood-option:hover { background: #243249; }
+        body.dark-mode .mood-option.selected { color: #818cf8; background: rgba(99, 102, 241, 0.15); border-color: #818cf8; }
+        body.dark-mode .range-value { color: #a5b4fc; background: rgba(99, 102, 241, 0.15); }
+        body.dark-mode .history-item { background: #1e293b; border-color: #334155; }
+        body.dark-mode .history-note { color: #cbd5e1; }
+        body.dark-mode .history-emoji, body.dark-mode .ai-result-emoji { background: #1e293b; }
+        body.dark-mode .empty-history { background: #1e293b; border-color: #475569; color: #94a3b8; }
+        body.dark-mode .summary-card { background: radial-gradient(circle at top right, rgba(88, 28, 135, 0.4), transparent 31%), linear-gradient(135deg, #1a1a40, #2d1b50, #3d1d5c); }
+        body.dark-mode .ai-insight-card { border-color: #4c1d95; background: radial-gradient(circle at top right, rgba(88, 28, 135, 0.2), transparent 37%), #1e293b; }
+        body.dark-mode .ai-insight-heading h2 { color: #f1f5f9; }
+        body.dark-mode #aiWaitingState, body.dark-mode #aiLoadingState, body.dark-mode .ai-estimate-box { background: #111827; border-color: #334155; }
+        body.dark-mode #aiWaitingState p, body.dark-mode .ai-estimate-box strong { color: #e5e7eb; }
+        body.dark-mode .ai-insight-message { background: rgba(99, 102, 241, 0.1); }
+        body.dark-mode .ai-insight-message p { color: #cbd5e1; }
+        body.dark-mode .ai-advice { background: rgba(16, 185, 129, 0.1); }
+        body.dark-mode .ai-advice li { color: #cbd5e1; }
+
+        .dark-mode-toggle {
+            background: rgba(30, 41, 59, 0.05);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            cursor: pointer;
+            padding: 9px 14px;
+            border-radius: 999px;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+        .dark-mode-toggle:hover { background: rgba(30, 41, 59, 0.15); }
+        body.dark-mode .dark-mode-toggle { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+        body.dark-mode .dark-mode-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
         /* Animations */
         @keyframes starPulse { 0%, 100% { opacity: 0.92; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
         @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -207,6 +254,7 @@
         <a href="{{ route('goals') }}">Goals</a>
         <a href="{{ route('resources') }}">Resources</a>
         <a href="{{ route('support.index') }}">Support</a>
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
     </nav>
 </header>
 
@@ -683,5 +731,6 @@
     updateSummary();
 </script>
 
+@include('partials.theme-script')
 </body>
 </html>

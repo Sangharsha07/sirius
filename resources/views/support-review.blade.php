@@ -10,6 +10,7 @@
             background: #f4f7fb;
             color: #1f2937;
             padding: 40px 8%;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .top {
@@ -113,6 +114,37 @@
             border-radius: 18px;
             color: #6b7280;
             margin-bottom: 22px;
+        }
+
+        /* Dark Mode Utility Overrides */
+        body.dark-mode {
+            background: radial-gradient(circle at 10% 8%, rgba(55, 48, 163, 0.4), transparent 25%),
+                        radial-gradient(circle at 91% 17%, rgba(30, 58, 138, 0.5), transparent 28%),
+                        linear-gradient(180deg, #0f1a3a 0%, #1a1a40 48%, #1f1a35 100%);
+            color: #e5e7eb;
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode .title {
+            color: #f1f5f9;
+        }
+        body.dark-mode a {
+            color: #60a5fa;
+        }
+        body.dark-mode .card, body.dark-mode .empty {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(71, 85, 105, 0.4);
+            box-shadow: 0 20px 52px rgba(0,0,0,0.3);
+        }
+        body.dark-mode .meta, body.dark-mode .empty {
+            color: #94a3b8;
+        }
+        body.dark-mode .content {
+            background: #1e293b;
+            color: #cbd5e1;
+        }
+        body.dark-mode .reason {
+            background: rgba(217, 119, 6, 0.15);
+            color: #fcd34d;
+            border: 1px solid rgba(217, 119, 6, 0.3);
         }
     </style>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
@@ -228,5 +260,6 @@
     </div>
 @endforelse
 
+@include('partials.theme-script')
 </body>
 </html>
